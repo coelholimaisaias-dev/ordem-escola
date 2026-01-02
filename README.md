@@ -2,159 +2,148 @@
 
 ![OrdemEscola Banner](./frontend/src/assets/banner.png)
 
-OrdemEscola é uma aplicação **full-stack** desenvolvida com **Spring Boot** (Java 21) no backend, **Angular 21** no frontend e **PostgreSQL 16** como banco de dados.  
-Este projeto é organizado como um **monorepo**, com integração via Docker para facilitar o desenvolvimento e deploy.
+OrdemEscola é uma aplicação full-stack organizada como monorepo, com **Spring Boot** no backend, **Angular** no frontend e **PostgreSQL** como banco de dados. O repositório inclui configuração para desenvolvimento local com Docker e instruções para execução sem container.
 
 ---
 
 ## Sumário
 
-- [Tecnologias](#tecnologias)  
-- [Pré-requisitos](#pré-requisitos)  
-- [Rodando localmente com Docker](#rodando-localmente-com-docker)  
-- [Scripts úteis](#scripts-úteis)  
-- [Estrutura do projeto](#estrutura-do-projeto)  
-- [Testes](#testes)  
-- [Deploy](#deploy)  
-- [Contribuição](#contribuição)  
-- [Licença](#licença)  
+- [Visão geral](#visão-geral)
+- [Tecnologias](#tecnologias)
+- [Pré-requisitos](#pré-requisitos)
+- [Execução rápida (Docker)](#execução-rápida-docker)
+- [Execução local (sem Docker)](#execução-local-sem-docker)
+- [Testes](#testes)
+- [Estrutura do projeto](#estrutura-do-projeto)
+- [Variáveis de ambiente principais](#variáveis-de-ambiente-principais)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
 
 ---
+
+## Visão geral
+
+Este monorepo contém dois principais serviços:
+- Backend: aplicação Spring Boot (Java) em [backend](backend)
+- Frontend: aplicação Angular em [frontend](frontend)
+
+Além disso, há configurações Docker em [docker](docker) para orquestrar Postgres, backend e frontend em containers.
 
 ## Tecnologias
 
-- **Backend:** Spring Boot 3.2, Spring Data JPA, HikariCP  
-- **Frontend:** Angular 21, TypeScript, SCSS  
-- **Banco de Dados:** PostgreSQL 16  
-- **Containerização:** Docker, Docker Compose  
-- **CI/CD e DevTools:** Spring Boot DevTools, NPM Scripts  
-
----
+- Backend: Spring Boot (Java 21), Maven
+- Frontend: Angular 21, TypeScript, SCSS
+- Banco: PostgreSQL 16
+- Containerização: Docker, Docker Compose
 
 ## Pré-requisitos
 
-- [Docker](https://www.docker.com/) >= 24  
-- [Docker Compose](https://docs.docker.com/compose/) >= 2.20  
-- [Node.js](https://nodejs.org/) >= 20  
-- [NPM](https://www.npmjs.com/) >= 11  
+- Docker (recomendado) e Docker Compose
+- Node.js >= 20 e npm (para desenvolvimento frontend local)
+- JDK 21 e Maven (ou use o wrapper `mvnw` / `mvnw.cmd`) para desenvolvimento backend
 
----
+## Execução rápida (Docker)
 
-## Rodando localmente com Docker
+Usa o arquivo de compose em [docker/docker-compose.yml](docker/docker-compose.yml).
 
-1. Clone o repositório:
+1. A partir da raiz do repositório:
 
 ```bash
-git clone https://github.com/coelholimaisaias-dev/ordem-escola.git
-cd ordem-escola
-Build e start dos containers:
+docker compose -f docker/docker-compose.yml up --build -d
+```
 
-docker-compose up --build -d
+2. Serviços disponíveis:
 
+- Backend: http://localhost:8080
+- Frontend (container): http://localhost:3000
+- PostgreSQL: host `localhost`, porta `5433`, usuário `postgres`, senha `postgres`
 
-Acesse os serviços:
+3. Parar e remover containers:
 
-Backend: http://localhost:8080
+```bash
+docker compose -f docker/docker-compose.yml down
+```
 
-Frontend: http://localhost:3000
+> Observação: o container frontend serve os artefatos estáticos via Nginx (porta interna 80 mapeada para 3000 no host).
 
-PostgreSQL: localhost:5433, usuário: postgres, senha: postgres
+## Execução local (sem Docker)
 
-Para derrubar todos os containers:
+Backend (modo desenvolvimento):
 
-docker-compose down
+Windows:
 
-Scripts úteis
-Backend
-
-Rodar testes:
-
+```powershell
 cd backend
-mvn test
+.\mvnw.cmd spring-boot:run
+```
 
+Linux / macOS:
 
-Rodar a aplicação localmente:
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-mvn spring-boot:run
+Frontend (modo desenvolvimento):
 
-Frontend
-
-Rodar localmente (dev server):
-
+```bash
 cd frontend
 npm install
 npm start
+# abre em http://localhost:4200 (ng serve)
+```
 
+Build para produção (frontend):
 
-Build de produção:
-
+```bash
+cd frontend
 npm run build
+```
 
-Estrutura do projeto
-ordem-escola/
-│
-├─ backend/                  # Backend Spring Boot
-│   ├─ src/
-│   ├─ pom.xml
-│   └─ ...
-│
-├─ frontend/                 # Frontend Angular
-│   ├─ src/
-│   ├─ angular.json
-│   ├─ package.json
-│   └─ ...
-│
-├─ docker/                   # Configuração Docker inicial (Postgres)
-│   ├─ postgres/
-│   │   ├─ Dockerfile
-│   │   └─ init.sql
-│   └─ ...
-│
-├─ docker-compose.yml        # Orquestração de containers
-└─ README.md
+Build para produção (backend):
 
-Testes
-
-Backend: JUnit + Spring Test
-
-Frontend: Vitest + Angular Unit Test
-
-Executar todos os testes:
-
-# Backend
+```bash
 cd backend
-mvn test
+./mvnw -DskipTests package
+```
 
-# Frontend
+## Testes
+
+Backend:
+
+```bash
+cd backend
+./mvnw test
+```
+
+Frontend:
+
+```bash
 cd frontend
 npm test
+```
 
-Deploy
+## Estrutura do projeto
 
-Buildar containers e subir via Docker Compose.
+- [backend](backend) — código do Spring Boot e configurações Maven
+- [frontend](frontend) — aplicação Angular
+- [docker](docker) — compose e scripts para Postgres e suporte a containers
 
-Configurar variáveis de ambiente para produção:
+## Variáveis de ambiente principais
 
-SPRING_DATASOURCE_URL
+- `SPRING_DATASOURCE_URL` — JDBC URL do banco (ex.: `jdbc:postgresql://postgres:5432/postgres` quando em Docker)
+- `SPRING_DATASOURCE_USERNAME` — usuário do banco (padrão: `postgres`)
+- `SPRING_DATASOURCE_PASSWORD` — senha do banco (padrão: `postgres`)
 
-SPRING_DATASOURCE_USERNAME
+Ao usar Docker Compose, essas variáveis já são definidas em [docker/docker-compose.yml](docker/docker-compose.yml).
 
-SPRING_DATASOURCE_PASSWORD
+## Contribuição
 
-Servidor de produção sugerido: AWS ECS, DigitalOcean ou servidor com Docker Swarm.
+1. Faça um fork do projeto.
+2. Crie uma branch: `git checkout -b feature/minha-feature`.
+3. Faça commits claros e pequenos.
+4. Abra um Pull Request descrevendo as mudanças.
 
-Contribuição
-
-Fork este repositório
-
-Crie uma branch para sua feature: git checkout -b feature/minha-feature
-
-Commit suas alterações: git commit -m "Adiciona minha feature"
-
-Push para a branch: git push origin feature/minha-feature
-
-Abra um Pull Request
-
-Licença
+## Licença
 
 MIT © Isaias Coelho
