@@ -34,7 +34,7 @@
 # Docker
 # ===============================
 /docker/postgres/*.env
-/docker/postgres/init.sql
+# /docker/postgres/init.sql
 /docker/**/*.log
 docker-compose.override.yml
 
