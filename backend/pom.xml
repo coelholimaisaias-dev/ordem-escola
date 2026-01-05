@@ -74,6 +74,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        
+        <!-- Flyway DB migrations -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -100,6 +106,18 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            
+            <!-- Flyway Maven Plugin for running migrations via Maven -->
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>9.22.0</version>
+                <configuration>
+                    <url>${spring.datasource.url}</url>
+                    <user>${spring.datasource.username}</user>
+                    <password>${spring.datasource.password}</password>
+                </configuration>
             </plugin>
         </plugins>
     </build>
