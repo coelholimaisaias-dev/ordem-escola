@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* PrimeNG styles are configured via angular.json styles array */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--surface-ground);
+}
+
+html, body {
+  height: 100%;
+}
+
