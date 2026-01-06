@@ -11,13 +11,13 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public abstract class Auditable {
+public abstract class Auditable implements Identifiable {
 
     @CreatedBy
     @Column(name = "criado_por", length = 255)
@@ -25,7 +25,7 @@ public abstract class Auditable {
 
     @CreatedDate
     @Column(name = "criado_em")
-    private OffsetDateTime criadoEm;
+    private Instant criadoEm;
 
     @LastModifiedBy
     @Column(name = "atualizado_por", length = 255)
@@ -33,5 +33,8 @@ public abstract class Auditable {
 
     @LastModifiedDate
     @Column(name = "atualizado_em")
-    private OffsetDateTime atualizadoEm;
+    private Instant atualizadoEm;
+
+    @Column(nullable = false)
+    private Boolean ativo = true; // delete lógico
 }

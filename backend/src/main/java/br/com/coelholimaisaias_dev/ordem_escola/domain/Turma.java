@@ -3,7 +3,7 @@ package br.com.coelholimaisaias_dev.ordem_escola.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "turma")
@@ -12,10 +12,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Turma extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Turma extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id")
@@ -32,5 +29,6 @@ public class Turma extends Auditable {
 
     private Integer capacidade;
 
-    
+    @Column(nullable = false)
+    private Boolean ativo = true;  // delete lógico
 }

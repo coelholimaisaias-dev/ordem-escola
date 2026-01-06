@@ -2,6 +2,8 @@ package br.com.coelholimaisaias_dev.ordem_escola.repository;
 
 import br.com.coelholimaisaias_dev.ordem_escola.domain.Aluno;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface AlunoRepository extends JpaRepository<Aluno, Long> {
+@Repository
+public interface AlunoRepository extends BaseRepository<Aluno> {
 }

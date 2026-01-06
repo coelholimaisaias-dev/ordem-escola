@@ -2,7 +2,7 @@ package br.com.coelholimaisaias_dev.ordem_escola.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "aluno_servico")
@@ -11,10 +11,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AlunoServico extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class AlunoServico extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aluno_id", nullable = false)
@@ -25,7 +22,7 @@ public class AlunoServico extends Auditable {
     private Servico servico;
 
     @Column(name = "data_inicio")
-    private OffsetDateTime dataInicio;
+    private Instant dataInicio;
 
     private Boolean ativo;
 }

@@ -2,7 +2,7 @@ package br.com.coelholimaisaias_dev.ordem_escola.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "matricula")
@@ -11,10 +11,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Matricula extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Matricula extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aluno_id", nullable = false)
@@ -25,10 +22,10 @@ public class Matricula extends Auditable {
     private Turma turma;
 
     @Column(name = "data_matricula")
-    private OffsetDateTime dataMatricula;
+    private Instant dataMatricula;
 
     private Boolean ativo;
 
     @Column(name = "data_cancelamento")
-    private OffsetDateTime dataCancelamento;
+    private Instant dataCancelamento;
 }

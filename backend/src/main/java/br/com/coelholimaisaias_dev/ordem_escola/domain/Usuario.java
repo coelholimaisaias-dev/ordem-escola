@@ -2,7 +2,7 @@ package br.com.coelholimaisaias_dev.ordem_escola.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "usuario")
@@ -11,10 +11,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Usuario extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Usuario extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id")
@@ -32,5 +29,7 @@ public class Usuario extends Auditable {
     @Column(nullable = false)
     private Perfil perfil;
 
+    @Column(nullable = false)
+    private Boolean ativo = true;  // delete lógico
     
 }

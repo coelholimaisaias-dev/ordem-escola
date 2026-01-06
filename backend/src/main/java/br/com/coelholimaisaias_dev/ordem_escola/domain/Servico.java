@@ -3,7 +3,6 @@ package br.com.coelholimaisaias_dev.ordem_escola.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "servico")
@@ -12,10 +11,7 @@ import java.time.OffsetDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Servico extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Servico extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "empresa_id")
@@ -30,5 +26,7 @@ public class Servico extends Auditable {
     @Column(name = "valor_base", precision = 12, scale = 2)
     private BigDecimal valorBase;
 
+    @Column(nullable = false)
+    private Boolean ativo = true;  // delete lógico
     
 }
