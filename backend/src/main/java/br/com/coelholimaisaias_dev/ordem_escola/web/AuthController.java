@@ -43,4 +43,10 @@ public class AuthController {
                 "username", auth.getName()
         ));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        // JWT stateless logout: client discards token. No server invalidation here.
+        return ResponseEntity.ok(Map.of("message", "logged out"));
+    }
 }
