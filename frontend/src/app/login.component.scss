@@ -1,0 +1,32 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.login-form {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message {
+  font-size: 0.9rem;
+}
+
+.message.error {
+  color: #b00020;
+}
+
+.message.success {
+  color: #2e7d32;
+}
+
+.button-row {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}

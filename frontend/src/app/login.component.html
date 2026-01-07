@@ -1,0 +1,15 @@
+<main class="login-container">
+  <form (ngSubmit)="submit()" class="login-form">
+    <h2>Entrar</h2>
+    <div *ngIf="errorMessage" class="message error">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="message success">{{ successMessage }}</div>
+    <label for="email">E-mail</label>
+    <input id="email" name="email" type="email" [(ngModel)]="email" required autofocus />
+    <label for="senha">Senha</label>
+    <input id="senha" name="senha" type="password" [(ngModel)]="senha" required />
+    <div class="button-row">
+      <button type="submit">Entrar</button>
+      <button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+</main>
