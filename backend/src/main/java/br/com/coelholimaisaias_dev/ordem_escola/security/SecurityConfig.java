@@ -67,8 +67,16 @@ public class SecurityConfig {
         public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        // Allow Angular dev server and any other required origins
-        config.setAllowedOriginPatterns(List.of("http://localhost:4200"));
+        // Allow local frontends served via Angular dev server and Nginx in Docker
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost",
+            "http://localhost:*",
+            "http://127.0.0.1",
+            "http://127.0.0.1:*",
+            "http://0.0.0.0:*",
+            "http://host.docker.internal:*",
+            "http://localhost:4200"
+        ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "Origin"));
 

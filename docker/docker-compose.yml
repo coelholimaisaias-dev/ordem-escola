@@ -25,9 +25,9 @@ services:
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/ordem_escola
+      SPRING_DATASOURCE_USERNAME: ordem_escola_user
+      SPRING_DATASOURCE_PASSWORD: ordem_escola_pass
 
   frontend:
     build:
