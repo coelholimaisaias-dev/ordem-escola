@@ -1,32 +1,32 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
 .login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex-center;
   min-height: 100vh;
-  padding: 1rem;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  padding: $spacing-lg;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background-color: $color-white;
 }
 
 .login-form {
-  width: 320px;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: $spacing-md;
 }
 
-.message {
-  font-size: 0.9rem;
-}
-
-.message.error {
-  color: #b00020;
-}
-
-.message.success {
-  color: #2e7d32;
-}
-
-.button-row {
-  margin-top: 0.5rem;
+.login-actions {
   display: flex;
-  gap: 0.5rem;
+  gap: $spacing-md;
+  padding-top: $spacing-lg;
+  border-top: 1px solid $color-gray-300;
+
+  app-button {
+    flex: 1;
+  }
 }

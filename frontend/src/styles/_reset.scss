@@ -1,0 +1,358 @@
+// ============================================
+// Reset & Normalize - Ordem Escola
+// ============================================
+// Ensures consistent baseline across all browsers before component styles.
+
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ============================================
+// Universal Selector
+// ============================================
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// ============================================
+// Root Styles
+// ============================================
+:root {
+  // Typography
+  font-family: $font-primary;
+  font-size: 16px; // Base for rem calculations
+  line-height: $line-height-normal;
+  color: $color-gray-900;
+
+  // Smooth scrolling
+  scroll-behavior: smooth;
+
+  // Reduce motion for accessibility
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  // Dark mode preferences (optional, can extend later)
+  @media (prefers-color-scheme: dark) {
+    // Define dark mode overrides here if needed
+  }
+}
+
+// ============================================
+// HTML & Body
+// ============================================
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: $color-white;
+}
+
+body {
+  font-feature-settings: 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+// ============================================
+// Headings
+// ============================================
+h1 { @include heading-1; }
+h2 { @include heading-2; }
+h3 { @include heading-3; }
+h4 { @include heading-4; }
+h5 { @include heading-5; }
+h6 { @include heading-6; }
+
+// ============================================
+// Paragraph & Text Elements
+// ============================================
+p {
+  margin-bottom: $spacing-md;
+  @include body-base;
+}
+
+small {
+  @include body-small;
+  font-size: 0.875em; // Relative to parent
+}
+
+strong,
+b {
+  font-weight: $font-weight-bold;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+// ============================================
+// Links
+// ============================================
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $transition-base $easing-in-out;
+
+  &:hover {
+    color: $color-primary-dark;
+    text-decoration: underline;
+  }
+
+  @include focus-visible;
+}
+
+// ============================================
+// Lists
+// ============================================
+ul,
+ol {
+  margin-bottom: $spacing-md;
+  padding-left: $spacing-lg;
+}
+
+li {
+  margin-bottom: $spacing-sm;
+}
+
+dl {
+  margin-bottom: $spacing-md;
+}
+
+dt {
+  font-weight: $font-weight-semibold;
+  margin-top: $spacing-md;
+  margin-bottom: $spacing-xs;
+}
+
+dd {
+  margin-left: $spacing-md;
+  margin-bottom: $spacing-md;
+}
+
+// ============================================
+// Code Elements
+// ============================================
+code,
+pre,
+samp {
+  font-family: $font-monospace;
+  font-size: 0.9em;
+  background-color: $color-gray-100;
+  border-radius: $radius-sm;
+  padding: $spacing-xs $spacing-sm;
+}
+
+pre {
+  padding: $spacing-md;
+  overflow-x: auto;
+  margin-bottom: $spacing-md;
+
+  code {
+    padding: 0;
+    background-color: transparent;
+  }
+}
+
+// ============================================
+// Forms
+// ============================================
+form {
+  margin-bottom: $spacing-lg;
+}
+
+fieldset {
+  border: 1px solid $color-gray-300;
+  border-radius: $radius-md;
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+}
+
+legend {
+  padding: 0 $spacing-sm;
+  font-weight: $font-weight-semibold;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: $spacing-xs;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  @include form-control;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+select {
+  appearance: none;
+  padding-right: $spacing-lg;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23424242' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right $spacing-sm center;
+}
+
+// ============================================
+// Buttons
+// ============================================
+button {
+  @include button-base;
+  background-color: $color-primary;
+  color: $color-white;
+
+  &:hover:not(:disabled) {
+    background-color: $color-primary-dark;
+  }
+}
+
+// ============================================
+// Tables
+// ============================================
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: $spacing-lg;
+}
+
+thead {
+  background-color: $color-gray-100;
+
+  th {
+    padding: $spacing-md;
+    text-align: left;
+    font-weight: $font-weight-semibold;
+    border-bottom: 2px solid $color-gray-300;
+  }
+}
+
+tbody {
+  tr {
+    border-bottom: 1px solid $color-gray-300;
+    transition: background-color $transition-base;
+
+    &:hover {
+      background-color: $color-gray-50;
+    }
+  }
+
+  td {
+    padding: $spacing-md;
+  }
+}
+
+// ============================================
+// Images & Media
+// ============================================
+img,
+svg,
+video,
+audio,
+iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+figure {
+  margin-bottom: $spacing-lg;
+
+  figcaption {
+    @include body-small;
+    color: $color-gray-600;
+    margin-top: $spacing-sm;
+  }
+}
+
+// ============================================
+// Horizontal Rule
+// ============================================
+hr {
+  border: none;
+  border-top: 1px solid $color-gray-300;
+  margin: $spacing-lg 0;
+}
+
+// ============================================
+// Blockquote
+// ============================================
+blockquote {
+  border-left: 4px solid $color-primary;
+  padding-left: $spacing-md;
+  margin-bottom: $spacing-md;
+  color: $color-gray-700;
+  font-style: italic;
+}
+
+// ============================================
+// Scrollbar (webkit browsers)
+// ============================================
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $color-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-gray-400;
+  border-radius: $radius-full;
+
+  &:hover {
+    background: $color-gray-500;
+  }
+}
+
+// ============================================
+// Selection
+// ============================================
+::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+::-moz-selection {
+  background-color: $color-primary;
+  color: $color-white;
+}
+
+// ============================================
+// Print Styles
+// ============================================
+@media print {
+  body {
+    background-color: $color-white;
+    color: $color-gray-900;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  @page {
+    margin: 2cm;
+  }
+}

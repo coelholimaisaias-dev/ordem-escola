@@ -6,6 +6,7 @@ import { firstValueFrom } from 'rxjs';
 interface LoginResponse {
   token: string;
   username?: string;
+  name?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -23,7 +24,7 @@ export class AuthService {
         this.token.set(res.token);
         localStorage.setItem('auth_token', res.token);
       }
-      const uname = res.username ?? email;
+      const uname = res.name ?? res.username ?? email;
       this.user.set(uname);
       localStorage.setItem('user', uname);
       return { ok: true, message: 'Autenticado' } as const;

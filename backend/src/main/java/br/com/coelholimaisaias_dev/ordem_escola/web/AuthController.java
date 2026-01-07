@@ -1,5 +1,6 @@
 package br.com.coelholimaisaias_dev.ordem_escola.web;
 
+import br.com.coelholimaisaias_dev.ordem_escola.repository.UsuarioRepository;
 import br.com.coelholimaisaias_dev.ordem_escola.security.JwtUtil;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -18,10 +19,12 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final UsuarioRepository usuarioRepository;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil, UsuarioRepository usuarioRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.usuarioRepository = usuarioRepository;
     }
 
     // DTO para login com validação
@@ -37,10 +40,15 @@ public class AuthController {
         );
 
         String token = jwtUtil.generateToken(auth.getName());
+        
+        // Buscar o usuário para retornar nome completo
+        var usuario = usuarioRepository.findByEmail(req.email()).orElse(null);
+        String nome = usuario != null ? usuario.getNome() : req.email();
 
         return ResponseEntity.ok(Map.of(
                 "token", token,
-                "username", auth.getName()
+                "username", auth.getName(),
+                "name", nome
         ));
     }
 

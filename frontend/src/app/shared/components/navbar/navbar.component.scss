@@ -1,0 +1,53 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.navbar {
+  background-color: $color-primary;
+  color: $color-white;
+  padding: $spacing-md 0;
+  @include shadow('md');
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+}
+
+.navbar-container {
+  @include flex-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 $spacing-lg;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  @include heading-5;
+  color: $color-white;
+  margin: 0;
+  font-weight: $font-weight-bold;
+}
+
+.navbar-end {
+  @include flex-between;
+  gap: $spacing-lg;
+}
+
+.navbar-user {
+  @include body-base;
+  color: rgba($color-white, 0.9);
+}
+
+@include media-down(md) {
+  .navbar-container {
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+
+  .navbar-end {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

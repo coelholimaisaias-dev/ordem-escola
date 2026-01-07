@@ -1,15 +1,54 @@
 <main class="login-container">
-  <form (ngSubmit)="submit()" class="login-form">
-    <h2>Entrar</h2>
-    <div *ngIf="errorMessage" class="message error">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" class="message success">{{ successMessage }}</div>
-    <label for="email">E-mail</label>
-    <input id="email" name="email" type="email" [(ngModel)]="email" required autofocus />
-    <label for="senha">Senha</label>
-    <input id="senha" name="senha" type="password" [(ngModel)]="senha" required />
-    <div class="button-row">
-      <button type="submit">Entrar</button>
-      <button type="button" (click)="cancel()">Cancelar</button>
-    </div>
-  </form>
+  <app-card title="Entrar ao Sistema" class="login-card">
+    <form (ngSubmit)="submit()" class="login-form">
+      <app-alert
+        *ngIf="errorMessage"
+        type="error"
+        [message]="errorMessage"
+        (dismissed)="errorMessage = null"
+      ></app-alert>
+
+      <app-alert
+        *ngIf="successMessage"
+        type="success"
+        [message]="successMessage"
+      ></app-alert>
+
+      <app-form-field
+        label="E-mail"
+        type="email"
+        placeholder="seu@email.com"
+        [(ngModel)]="email"
+        name="email"
+        autofocus
+      ></app-form-field>
+
+      <app-form-field
+        label="Senha"
+        type="password"
+        placeholder="Digite sua senha"
+        [(ngModel)]="senha"
+        name="senha"
+      ></app-form-field>
+
+      <div class="login-actions" card-footer>
+        <app-button
+          type="submit"
+          variant="primary"
+          [loading]="isLoading()"
+          [fullWidth]="true"
+        >
+          Entrar
+        </app-button>
+        <app-button
+          type="button"
+          variant="secondary"
+          (clicked)="cancel()"
+          [fullWidth]="true"
+        >
+          Cancelar
+        </app-button>
+      </div>
+    </form>
+  </app-card>
 </main>

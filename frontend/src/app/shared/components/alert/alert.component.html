@@ -1,0 +1,21 @@
+<div
+  *ngIf="!isDismissed"
+  [class.alert]="true"
+  [class.alert-success]="type === 'success'"
+  [class.alert-error]="type === 'error'"
+  [class.alert-warning]="type === 'warning'"
+  [class.alert-info]="type === 'info'"
+  role="alert"
+>
+  <span class="alert-icon">{{ getIcon() }}</span>
+  <span class="alert-message">{{ message }}</span>
+  <button
+    *ngIf="dismissible"
+    class="alert-close"
+    type="button"
+    (click)="dismiss()"
+    aria-label="Dismiss alert"
+  >
+    ✕
+  </button>
+</div>

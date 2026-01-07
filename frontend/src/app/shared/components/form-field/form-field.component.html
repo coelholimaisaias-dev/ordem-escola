@@ -1,0 +1,22 @@
+<div class="form-group">
+  <label *ngIf="label" [for]="label | lowercase" class="form-label">
+    {{ label }}
+  </label>
+  <input
+    [id]="label | lowercase"
+    [type]="type"
+    [value]="value"
+    [placeholder]="placeholder"
+    [disabled]="disabled"
+    [class.form-control]="true"
+    [class.form-control-error]="error && touched"
+    (input)="onChange($event.target.value)"
+    (blur)="onBlur()"
+  />
+  <div *ngIf="error && touched" class="form-error">
+    {{ error }}
+  </div>
+  <div *ngIf="helper && !error" class="form-helper">
+    {{ helper }}
+  </div>
+</div>

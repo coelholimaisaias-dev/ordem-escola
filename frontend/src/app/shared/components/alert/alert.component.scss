@@ -1,0 +1,78 @@
+@use 'sass:color';
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.alert {
+  @include flex-between;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $radius-md;
+  border-left: 4px solid;
+  margin-bottom: $spacing-md;
+  animation: slideIn $transition-base $easing-out;
+
+  &.alert-success {
+    background-color: rgba($color-success, 0.1);
+    border-color: $color-success;
+    color: color.adjust($color-success, $lightness: -20%);
+  }
+
+  &.alert-error {
+    background-color: rgba($color-error, 0.1);
+    border-color: $color-error;
+    color: color.adjust($color-error, $lightness: -20%);
+  }
+
+  &.alert-warning {
+    background-color: rgba($color-warning, 0.1);
+    border-color: $color-warning;
+    color: color.adjust($color-warning, $lightness: -20%);
+  }
+
+  &.alert-info {
+    background-color: rgba($color-info, 0.1);
+    border-color: $color-info;
+    color: color.adjust($color-info, $lightness: -20%);
+  }
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  font-weight: $font-weight-bold;
+  margin-right: $spacing-md;
+  font-size: $font-size-lg;
+}
+
+.alert-message {
+  @include body-base;
+  flex: 1;
+}
+
+.alert-close {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: $spacing-md;
+  font-size: $font-size-lg;
+  color: inherit;
+  opacity: $opacity-70;
+  transition: opacity $transition-base;
+
+  &:hover {
+    opacity: $opacity-100;
+  }
+
+  @include focus-visible;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

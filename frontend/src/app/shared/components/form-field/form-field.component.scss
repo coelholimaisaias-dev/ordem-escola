@@ -1,0 +1,39 @@
+@use '../../../../styles/variables' as *;
+@use '../../../../styles/mixins' as *;
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
+}
+
+.form-label {
+  @include body-base;
+  font-weight: $font-weight-medium;
+  color: $color-gray-900;
+}
+
+.form-control {
+  @include form-control;
+
+  &.form-control-error {
+    border-color: $color-error;
+    background-color: rgba($color-error, 0.02);
+
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-error, 0.5);
+    }
+  }
+}
+
+.form-error {
+  @include body-small;
+  color: $color-error;
+  font-weight: $font-weight-medium;
+}
+
+.form-helper {
+  @include body-small;
+  color: $color-gray-600;
+}

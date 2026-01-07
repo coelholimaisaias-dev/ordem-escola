@@ -3,11 +3,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from './auth.service';
+import { CardComponent } from './shared/components/card/card.component';
+import { ButtonComponent } from './shared/components/button/button.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
+import { FormFieldComponent } from './shared/components/form-field/form-field.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    CardComponent,
+    ButtonComponent,
+    AlertComponent,
+    FormFieldComponent
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
