@@ -11,8 +11,8 @@
 }
 
 .card-header {
-  margin-bottom: $spacing-md;
-  padding-bottom: $spacing-md;
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  padding-bottom: clamp(0.75rem, 2vw, 1rem);
   border-bottom: 1px solid $color-gray-300;
 }
 
@@ -20,12 +20,14 @@
   @include heading-5;
   margin: 0;
   color: $color-gray-900;
+  font-size: clamp(1rem, 2vw, 1.25rem);
 }
 
 .card-subtitle {
   @include body-small;
   color: $color-gray-600;
-  margin-top: $spacing-xs;
+  margin-top: clamp(0.25rem, 1vw, 0.5rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
 }
 
 .card-body {
@@ -33,10 +35,10 @@
 }
 
 .card-footer {
-  margin-top: $spacing-md;
-  padding-top: $spacing-md;
+  margin-top: clamp(0.75rem, 2vw, 1rem);
+  padding-top: clamp(0.75rem, 2vw, 1rem);
   border-top: 1px solid $color-gray-300;
   display: flex;
-  gap: $spacing-md;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
   justify-content: flex-end;
 }

@@ -4,10 +4,10 @@
 
 .alert {
   @include flex-between;
-  padding: $spacing-md $spacing-lg;
-  border-radius: $radius-md;
-  border-left: 4px solid;
-  margin-bottom: $spacing-md;
+  padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.5rem);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  border-left: clamp(0.25rem, 0.5vw, 0.3rem) solid;
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
   animation: slideIn $transition-base $easing-out;
 
   &.alert-success {
@@ -38,13 +38,14 @@
 .alert-icon {
   flex-shrink: 0;
   font-weight: $font-weight-bold;
-  margin-right: $spacing-md;
-  font-size: $font-size-lg;
+  margin-right: clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(1rem, 2vw, 1.125rem);
 }
 
 .alert-message {
   @include body-base;
   flex: 1;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
 }
 
 .alert-close {
@@ -53,8 +54,8 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  margin-left: $spacing-md;
-  font-size: $font-size-lg;
+  margin-left: clamp(0.75rem, 2vw, 1rem);
+  font-size: clamp(1rem, 2vw, 1.125rem);
   color: inherit;
   opacity: $opacity-70;
   transition: opacity $transition-base;
@@ -69,7 +70,7 @@
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(clamp(-0.625rem, -1.5vw, -0.75rem));
   }
   to {
     opacity: 1;

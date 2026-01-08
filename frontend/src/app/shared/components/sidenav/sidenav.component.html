@@ -1,10 +1,13 @@
-<aside class="sidenav" [class.collapsed]="isCollapsed()" *ngIf="auth.isAuthenticated()">
+<aside class="sidenav" *ngIf="auth.isAuthenticated()">
+  <div class="sidenav-header">
+    <span class="sidenav-logo">📚 Ordem-Escola</span>
+  </div>
   <nav class="sidenav__nav">
     <mat-nav-list>
       <mat-list-item
         *ngFor="let item of menus"
         [routerLink]="item.path"
-        routerLinkActive="mat-list-item-active"
+        routerLinkActive="active"
         [disabled]="!isItemAllowed(item.roles)"
         class="sidenav__item"
       >

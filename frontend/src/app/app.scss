@@ -1,29 +1,60 @@
 @use '../styles/variables' as *;
 
-.logout-button {
-	position: fixed;
-	top: 12px;
-	right: 12px;
-	padding: 0.5rem 0.75rem;
-	cursor: pointer;
-	z-index: 1000;
+.sidenav-container {
+	display: flex;
+	height: 100vh;
 }
 
-.app-container {
+.sidenav {
+	width: clamp(15rem, 20vw, 18rem);
+	min-width: clamp(15rem, 20vw, 18rem);
+	box-shadow: none;
+	background: linear-gradient(180deg, #2563eb, #1d4ed8);
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-radius: 0;
+
+	::ng-deep {
+		.mat-drawer-inner-container {
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			background: transparent;
+			border-radius: 0;
+		}
+	}
+}
+
+.sidenav-content {
 	display: flex;
-	margin-top: 60px;
-	min-height: calc(100vh - 60px);
+	flex-direction: column;
+	flex: 1;
 }
 
 .main-content {
 	flex: 1;
-	margin-left: 250px;
-	padding: var(--spacing-lg);
+	padding: clamp(1rem, 4vw, 2rem);
 	background-color: var(--color-background);
 	overflow-y: auto;
+}
 
-	@media (max-width: $breakpoint-md) {
-		margin-left: 0;
+/* Responsive adjustments para telas pequenas */
+@media (max-width: 640px) {
+	.sidenav-container {
+		&.menu-expandido {
+			.sidenav {
+				width: clamp(15rem, 80vw, 18rem);
+			}
+		}
+	}
+
+	.sidenav {
+		width: clamp(4rem, 12vw, 5rem);
+		min-width: clamp(4rem, 12vw, 5rem);
+	}
+
+	.main-content {
+		padding: clamp(0.75rem, 3vw, 1.5rem);
 	}
 }
 

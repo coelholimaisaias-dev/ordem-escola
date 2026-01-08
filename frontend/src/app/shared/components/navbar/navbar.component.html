@@ -1,8 +1,5 @@
 <nav class="navbar">
   <div class="navbar-container">
-    <div class="navbar-brand">
-      <span class="navbar-logo">📚 Ordem-Escola</span>
-    </div>
     <div *ngIf="auth.isAuthenticated()" class="navbar-end">
       <span class="navbar-user">Bem-vindo, {{ auth.getUser() }}</span>
       <app-button

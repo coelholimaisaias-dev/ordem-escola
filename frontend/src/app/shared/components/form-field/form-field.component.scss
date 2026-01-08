@@ -4,25 +4,27 @@
 .form-group {
   display: flex;
   flex-direction: column;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  margin-bottom: clamp(0.75rem, 2vw, 1rem);
 }
 
 .form-label {
   @include body-base;
   font-weight: $font-weight-medium;
   color: $color-gray-900;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
 }
 
 .form-control {
   @include form-control;
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
 
   &.form-control-error {
     border-color: $color-error;
     background-color: rgba($color-error, 0.02);
 
     &:focus {
-      box-shadow: 0 0 0 2px rgba($color-error, 0.5);
+      box-shadow: 0 0 0 clamp(0.125rem, 0.5vw, 0.15rem) rgba($color-error, 0.5);
     }
   }
 }
@@ -31,9 +33,11 @@
   @include body-small;
   color: $color-error;
   font-weight: $font-weight-medium;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
 }
 
 .form-helper {
   @include body-small;
   color: $color-gray-600;
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
 }

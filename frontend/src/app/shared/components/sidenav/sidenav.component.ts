@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,13 +17,8 @@ import { MENU_ITEMS } from '../../../core/menu';
 export class SidenavComponent {
   protected auth = inject(AuthService);
   protected readonly menus = MENU_ITEMS;
-  protected isCollapsed = signal(false);
 
   isItemAllowed(roles: string[]): boolean {
     return roles.includes(this.auth.getRole());
-  }
-
-  toggleSidebar() {
-    this.isCollapsed.update(v => !v);
   }
 }

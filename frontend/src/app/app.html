@@ -1,7 +1,15 @@
-<app-navbar></app-navbar>
-<div class="app-container">
-  <app-sidenav></app-sidenav>
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    class="sidenav"
+    mode="side"
+    [opened]="true">
+    <app-sidenav></app-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <app-navbar></app-navbar>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

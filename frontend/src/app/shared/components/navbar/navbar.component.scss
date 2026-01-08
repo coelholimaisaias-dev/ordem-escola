@@ -4,50 +4,45 @@
 .navbar {
   background: linear-gradient(90deg, $color-primary, $color-primary-dark);
   color: $color-white;
-  padding: $spacing-sm $spacing-lg;
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(1rem, 3vw, 2rem);
   @include shadow('md');
   position: sticky;
   top: 0;
   z-index: $z-index-sticky;
-  height: 60px;
+  height: clamp(3.5rem, 8vh, 4rem);
   display: flex;
   align-items: center;
 }
 
 .navbar-container {
-  @include flex-between;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 100%;
   max-width: 100%;
 }
 
-.navbar-brand {
-  display: flex;
-  align-items: center;
-}
-
-.navbar-logo {
-  @include heading-5;
-  color: $color-white;
-  margin: 0;
-  font-weight: $font-weight-bold;
-}
-
 .navbar-end {
   @include flex-between;
-  gap: $spacing-lg;
+  gap: clamp(0.5rem, 2vw, 2rem);
 }
 
 .navbar-user {
   @include body-base;
   color: rgba($color-white, 0.9);
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
 }
 
 @include media-down(md) {
   .navbar {
-    padding: $spacing-sm $spacing-md;
+    padding: clamp(0.5rem, 1vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
   }
 
   .navbar-end {
-    gap: $spacing-md;
+    gap: clamp(0.25rem, 1vw, 0.75rem);
+  }
+
+  .navbar-user {
+    display: none;
   }
 }
