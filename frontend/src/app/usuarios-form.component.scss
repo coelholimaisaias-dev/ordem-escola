@@ -41,6 +41,10 @@
 
   button {
     min-width: clamp(7rem, 15vw, 9rem);
+
+    &:hover {
+      color: white !important;
+    }
   }
 }
 

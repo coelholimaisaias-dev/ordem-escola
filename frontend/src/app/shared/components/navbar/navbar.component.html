@@ -2,13 +2,9 @@
   <div class="navbar-container">
     <div *ngIf="auth.isAuthenticated()" class="navbar-end">
       <span class="navbar-user">Bem-vindo, {{ auth.getUser() }}</span>
-      <app-button
-        variant="secondary"
-        size="sm"
-        (clicked)="logout()"
-      >
+      <button mat-stroked-button class="btn-logout" (click)="logout()">
         Sair
-      </app-button>
+      </button>
     </div>
   </div>
 </nav>

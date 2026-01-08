@@ -17,6 +17,10 @@
     font-size: clamp(1.5rem, 3vw, 2rem);
     color: $color-gray-900;
   }
+
+  button:hover {
+    color: white !important;
+  }
 }
 
 .filtros {
@@ -33,6 +37,10 @@
   button {
     height: clamp(3rem, 7vh, 3.5rem);
     margin-bottom: clamp(1.25rem, 2vw, 1.5rem);
+
+    &:hover {
+      color: white !important;
+    }
   }
 }
 
