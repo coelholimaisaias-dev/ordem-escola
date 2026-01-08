@@ -54,3 +54,17 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Design services around a single responsibility
 - Use the `providedIn: 'root'` option for singleton services
 - Use the `inject()` function instead of constructor injection
+
+## Styling & SCSS Standards
+
+- Use SCSS with a focus on modularity and reusability.
+- **Global Variables:** Always prioritize variables from `src/styles/_variables.scss` for colors, spacing, and border-radius. Do NOT hardcode hex codes.
+- **Naming Convention:** Use BEM (Block Element Modifier) for class naming (e.g., `.card`, `.card__header`, `.card--active`).
+- **Flexbox & Grid:** Prefer Flexbox for one-dimensional layouts and CSS Grid for two-dimensional layouts.
+- **Mixins:** Use existing mixins from `src/styles/_mixins.scss` for common patterns like flex-center or text-ellipsis.
+- **Component Styles:** Keep SCSS files scoped to their components. 
+- **Consistency:** Before creating a new style, check `src/app/shared/styles` for existing utility classes.
+- **Design Tokens:** Follow the "OrdemEscola" design system: 
+  - Primary color: `$color-primary`
+  - Border radius: `$radius-md` (8px)
+  - Shadows: `$shadow-sm`, `$shadow-lg`

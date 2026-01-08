@@ -1,12 +1,15 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Role } from './core/roles';
+import { Perfil } from './core/perfil';
 import { firstValueFrom } from 'rxjs';
 
 interface LoginResponse {
   token: string;
   username?: string;
   name?: string;
+  perfil?: Perfil;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -14,22 +17,36 @@ export class AuthService {
   private http = inject(HttpClient);
   private token = signal<string | null>(localStorage.getItem('auth_token'));
   private user = signal<string | null>(localStorage.getItem('user'));
+  private role = signal<Role>((localStorage.getItem('user_role') as Role) || Perfil.CLIENTE);
   readonly isAuthenticated = computed(() => !!this.token());
 
   async login(email: string, senha: string) {
     const body = { email, senha };
     try {
       const res = await firstValueFrom(this.http.post<LoginResponse>(`/auth/login`, body));
+      console.log('Resposta do login:', res);
       if (res?.token) {
         this.token.set(res.token);
         localStorage.setItem('auth_token', res.token);
+      } else {
+        console.warn('Token não encontrado na resposta. Backend enviando cookie?');
+        // Se não tem token no body, assumir que está autenticado (cookie)
+        this.token.set('authenticated');
+        localStorage.setItem('auth_token', 'authenticated');
       }
       const uname = res.name ?? res.username ?? email;
       this.user.set(uname);
       localStorage.setItem('user', uname);
+
+      // Capturar role do backend
+      const role = res.perfil === Perfil.ADMIN ? Perfil.ADMIN : Perfil.CLIENTE;
+      this.setRole(role);
+      console.log('Role setado:', role);
+
       return { ok: true, message: 'Autenticado' } as const;
     } catch (err: any) {
       this.logout();
+      console.error('Erro no login:', err);
       const message = err?.error?.message || err?.message || 'Erro ao autenticar';
       return { ok: false, message } as const;
     }
@@ -40,6 +57,7 @@ export class AuthService {
     this.user.set(null);
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
+    localStorage.removeItem('user_role');
   }
 
   async performLogout() {
@@ -58,6 +76,15 @@ export class AuthService {
 
   getUser() {
     return this.user();
+  }
+
+  getRole(): Role {
+    return this.role();
+  }
+
+  setRole(role: Role) {
+    this.role.set(role);
+    localStorage.setItem('user_role', role);
   }
 }
 

@@ -2,20 +2,22 @@
 @use '../../../../styles/mixins' as *;
 
 .navbar {
-  background-color: $color-primary;
+  background: linear-gradient(90deg, $color-primary, $color-primary-dark);
   color: $color-white;
-  padding: $spacing-md 0;
+  padding: $spacing-sm $spacing-lg;
   @include shadow('md');
   position: sticky;
   top: 0;
   z-index: $z-index-sticky;
+  height: 60px;
+  display: flex;
+  align-items: center;
 }
 
 .navbar-container {
   @include flex-between;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 $spacing-lg;
+  width: 100%;
+  max-width: 100%;
 }
 
 .navbar-brand {
@@ -41,13 +43,11 @@
 }
 
 @include media-down(md) {
-  .navbar-container {
-    flex-direction: column;
-    gap: $spacing-md;
+  .navbar {
+    padding: $spacing-sm $spacing-md;
   }
 
   .navbar-end {
-    width: 100%;
-    justify-content: space-between;
+    gap: $spacing-md;
   }
 }

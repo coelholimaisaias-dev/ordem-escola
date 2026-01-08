@@ -1,3 +1,5 @@
+@use '../styles/variables' as *;
+
 .logout-button {
 	position: fixed;
 	top: 12px;
@@ -6,3 +8,22 @@
 	cursor: pointer;
 	z-index: 1000;
 }
+
+.app-container {
+	display: flex;
+	margin-top: 60px;
+	min-height: calc(100vh - 60px);
+}
+
+.main-content {
+	flex: 1;
+	margin-left: 250px;
+	padding: var(--spacing-lg);
+	background-color: var(--color-background);
+	overflow-y: auto;
+
+	@media (max-width: $breakpoint-md) {
+		margin-left: 0;
+	}
+}
+

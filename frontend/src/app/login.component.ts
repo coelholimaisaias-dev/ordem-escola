@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, signal, inject } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule, ActivatedRoute } from '@angular/router';
@@ -21,8 +21,7 @@ import { FormFieldComponent } from './shared/components/form-field/form-field.co
     FormFieldComponent
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   private router = inject(Router);
@@ -46,22 +45,23 @@ export class LoginComponent {
 
     this.isLoading.set(true);
 
-    try {
-      const result = await this.auth.login(this.email, this.senha);
+    const result = await this.auth.login(this.email, this.senha);
 
-      if (result.ok) {
-        this.successMessage = 'Login realizado com sucesso!';
+    if (result.ok) {
+      this.successMessage = 'Login realizado com sucesso!';
+      this.isLoading.set(false);
 
-        setTimeout(() => {
-          const redirect = this.route.snapshot.queryParamMap.get('redirect') || '/';
-          this.router.navigateByUrl(redirect === '/login' ? '/' : redirect);
-        }, 500);
-      } else {
-        this.errorMessage = result.message;
-      }
-    } catch (error) {
-      this.errorMessage = 'Erro ao tentar fazer login. Tente novamente.';
-    } finally {
+      // Debug: verificar estado de autenticação
+      console.log('Login OK, isAuthenticated:', this.auth.isAuthenticated());
+      console.log('Token:', this.auth.getToken());
+
+      // Navegar para home
+      console.log('Navegando para /');
+      this.router.navigate(['/'], { replaceUrl: true }).then(success => {
+        console.log('Navegação bem-sucedida?', success);
+      });
+    } else {
+      this.errorMessage = result.message;
       this.isLoading.set(false);
     }
   }
