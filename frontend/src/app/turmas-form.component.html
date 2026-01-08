@@ -1,0 +1,74 @@
+<main class="page turmas-form-page">
+  <div class="form-header">
+    <h1>{{ isEditMode() ? 'Editar Turma' : 'Nova Turma' }}</h1>
+  </div>
+
+  <div class="form-container" *ngIf="!isLoading()">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="empresaId">
+          <mat-option *ngFor="let empresa of empresas()" [value]="empresa.id">
+            {{ empresa.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('empresaId')?.hasError('required')">
+          Empresa é obrigatória
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Nome da turma">
+        <mat-error *ngIf="form.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+          Nome deve ter pelo menos 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Turno</mat-label>
+        <mat-select formControlName="turno">
+          <mat-option value="MANHA">Manhã</mat-option>
+          <mat-option value="TARDE">Tarde</mat-option>
+          <mat-option value="NOITE">Noite</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('turno')?.hasError('required')">
+          Turno é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Capacidade</mat-label>
+        <input matInput formControlName="capacidade" type="number" placeholder="Número de alunos">
+        <mat-error *ngIf="form.get('capacidade')?.hasError('required')">
+          Capacidade é obrigatória
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Valor Base</mat-label>
+        <input matInput formControlName="valorBase" type="number" placeholder="0.00" step="0.01">
+        <mat-error *ngIf="form.get('valorBase')?.hasError('required')">
+          Valor base é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          <mat-spinner *ngIf="isSaving()" diameter="20" strokeWidth="2"></mat-spinner>
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()" [disabled]="isSaving()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="carregando" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+</main>

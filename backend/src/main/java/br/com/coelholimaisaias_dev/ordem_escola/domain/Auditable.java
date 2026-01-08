@@ -28,11 +28,11 @@ public abstract class Auditable implements Identifiable {
     private Instant criadoEm;
 
     @LastModifiedBy
-    @Column(name = "atualizado_por", length = 255)
+    @Column(name = "atualizado_por", length = 255, insertable = false)
     private String atualizadoPor;
 
     @LastModifiedDate
-    @Column(name = "atualizado_em")
+    @Column(name = "atualizado_em", insertable = false)
     private Instant atualizadoEm;
 
     @Column(nullable = false)

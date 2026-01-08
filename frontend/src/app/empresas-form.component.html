@@ -1,0 +1,45 @@
+<main class="page empresas-form-page">
+  <div class="form-header">
+    <h1>{{ isEditMode() ? 'Editar Empresa' : 'Nova Empresa' }}</h1>
+  </div>
+
+  <div class="form-container" *ngIf="!isLoading()">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Nome da empresa">
+        <mat-error *ngIf="form.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+          Nome deve ter pelo menos 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>CNPJ</mat-label>
+        <input matInput formControlName="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+        <mat-error *ngIf="form.get('cnpj')?.hasError('required')">
+          CNPJ é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('cnpj')?.hasError('pattern')">
+          CNPJ inválido
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          <mat-spinner *ngIf="isSaving()" diameter="20" strokeWidth="2"></mat-spinner>
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()" [disabled]="isSaving()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="carregando" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+</main>

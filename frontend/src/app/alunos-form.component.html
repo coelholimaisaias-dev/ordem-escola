@@ -1,0 +1,40 @@
+<main class="page alunos-form-page">
+  <div class="form-header">
+    <h1>{{ isEditMode() ? 'Editar Aluno' : 'Novo Aluno' }}</h1>
+  </div>
+
+  <div class="form-container" *ngIf="!isLoading()">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Usuário</mat-label>
+        <mat-select formControlName="usuarioId">
+          <mat-option *ngFor="let usuario of usuarios()" [value]="usuario.id">
+            {{ usuario.nome }} ({{ usuario.email }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('usuarioId')?.hasError('required')">
+          Usuário é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Data de Nascimento</mat-label>
+        <input matInput formControlName="dataNascimento" type="date">
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          <mat-spinner *ngIf="isSaving()" diameter="20" strokeWidth="2"></mat-spinner>
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()" [disabled]="isSaving()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="carregando" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+</main>

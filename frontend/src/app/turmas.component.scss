@@ -1,0 +1,124 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.turmas-page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.turmas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: $color-gray-900;
+  }
+
+  button:hover {
+    color: white !important;
+  }
+}
+
+.filtros {
+  display: flex;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  align-items: flex-end;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1;
+    min-width: clamp(12rem, 25vw, 15rem);
+  }
+
+  button {
+    height: clamp(3rem, 7vh, 3.5rem);
+    margin-bottom: clamp(1.25rem, 2vw, 1.5rem);
+
+    &:hover {
+      color: white !important;
+    }
+  }
+}
+
+.tabela-container {
+  overflow-x: auto;
+  background: $color-white;
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  box-shadow: $shadow-sm;
+
+  table {
+    width: 100%;
+  }
+}
+
+.tabela-turmas {
+  th {
+    background-color: $color-gray-100;
+    color: $color-gray-900;
+    font-weight: 600;
+  }
+
+  td {
+    padding: clamp(0.75rem, 2vw, 1rem);
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  tr:hover {
+    background-color: $color-gray-50;
+  }
+}
+
+.acoes-cell {
+  display: flex;
+  gap: clamp(0.25rem, 1vw, 0.5rem);
+  justify-content: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: clamp(0.25rem, 0.5vw, 0.375rem) clamp(0.5rem, 1vw, 0.75rem);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+  font-weight: 500;
+
+  &.ativo {
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+  }
+
+  &.inativo {
+    background-color: rgba($color-error, 0.1);
+    color: $color-error;
+  }
+}
+
+.carregando {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: clamp(20rem, 50vh, 25rem);
+}
+
+@media (max-width: 960px) {
+  .turmas-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(0.75rem, 2vw, 1rem);
+  }
+
+  .filtros {
+    flex-direction: column;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}

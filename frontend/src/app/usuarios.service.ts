@@ -32,7 +32,7 @@ export interface UsuarioUpdateRequest {
 @Injectable({ providedIn: 'root' })
 export class UsuariosService {
   private http = inject(HttpClient);
-  private apiUrl = '/usuarios';
+  private apiUrl = '/api/usuarios';
 
   async listAll(nome?: string, empresaId?: number) {
     let url = this.apiUrl;

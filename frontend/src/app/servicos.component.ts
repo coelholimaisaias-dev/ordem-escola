@@ -11,11 +11,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { TurmasService, Turma, Turno } from './turmas.service';
+import { ServicosService, Servico } from './servicos.service';
 import { EmpresasService, Empresa } from './empresas.service';
+import { Turno } from './turmas.service';
 
 @Component({
-  selector: 'app-turmas',
+  selector: 'app-servicos',
   standalone: true,
   imports: [
     CommonModule,
@@ -30,51 +31,55 @@ import { EmpresasService, Empresa } from './empresas.service';
     MatProgressSpinnerModule,
     MatTooltipModule
   ],
-  templateUrl: './turmas.component.html',
-  styleUrl: './turmas.component.scss',
+  templateUrl: './servicos.component.html',
+  styleUrl: './servicos.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TurmasComponent {
-  private turmasService = inject(TurmasService);
+export class ServicosComponent {
+  private servicosService = inject(ServicosService);
   private empresasService = inject(EmpresasService);
   private router = inject(Router);
 
-  turmas = signal<Turma[]>([]);
+  servicos = signal<Servico[]>([]);
   empresas = signal<Empresa[]>([]);
   isLoading = signal(false);
 
   filtroNome = signal('');
-  filtroTurno = signal<Turno | null>(null);
   filtroEmpresa = signal<number | null>(null);
+  filtroTurno = signal<Turno | null>(null);
 
-  displayedColumns = ['id', 'nome', 'turno', 'empresa', 'capacidade', 'valorBase', 'status', 'acoes'];
+  displayedColumns = ['id', 'nome', 'empresa', 'turno', 'valorBase', 'status', 'acoes'];
 
-  turmasFiltradas = computed(() => {
-    const turmas = this.turmas();
+  servicosFiltrados = computed(() => {
+    const items = this.servicos();
     const nome = this.filtroNome().toLowerCase();
-    const turno = this.filtroTurno();
     const empresa = this.filtroEmpresa();
+    const turno = this.filtroTurno();
 
-    return turmas.filter(t => {
-      const matchNome = !nome || t.nome.toLowerCase().includes(nome);
-      const matchTurno = !turno || t.turno === turno;
-      const matchEmpresa = !empresa || t.empresaId === empresa;
-      return matchNome && matchTurno && matchEmpresa;
+    return items.filter(s => {
+      const matchNome = !nome || s.nome.toLowerCase().includes(nome);
+      const matchEmpresa = !empresa || s.empresaId === empresa;
+      const matchTurno = !turno || s.turno === turno;
+      return matchNome && matchEmpresa && matchTurno;
     });
   });
 
   async ngOnInit() {
     await this.carregarEmpresas();
-    await this.carregarTurmas();
+    await this.carregarServicos();
   }
 
-  async carregarTurmas() {
+  async carregarServicos() {
     this.isLoading.set(true);
     try {
-      const turmas = await this.turmasService.listAll();
-      this.turmas.set(turmas);
+      const lista = await this.servicosService.listAll(
+        this.filtroNome() || undefined,
+        this.filtroEmpresa() || undefined,
+        this.filtroTurno() || undefined
+      );
+      this.servicos.set(lista);
     } catch (error) {
-      console.error('Erro ao carregar turmas:', error);
+      console.error('Erro ao carregar serviços:', error);
     } finally {
       this.isLoading.set(false);
     }
@@ -82,42 +87,41 @@ export class TurmasComponent {
 
   async carregarEmpresas() {
     try {
-      const empresas = await this.empresasService.listAll();
-      this.empresas.set(empresas);
+      const lista = await this.empresasService.listAll();
+      this.empresas.set(lista);
     } catch (error) {
       console.error('Erro ao carregar empresas:', error);
     }
   }
 
   filtrar() {
-    // Computed signal já faz o filtro automaticamente
+    // computed já aplica os filtros
   }
 
   limparFiltros() {
     this.filtroNome.set('');
-    this.filtroTurno.set(null);
     this.filtroEmpresa.set(null);
+    this.filtroTurno.set(null);
   }
 
-  nova() {
-    this.router.navigate(['/turmas/nova']);
+  novo() {
+    this.router.navigate(['/servicos/nova']);
   }
 
   editar(id: number) {
-    this.router.navigate(['/turmas', id]);
+    this.router.navigate(['/servicos', id]);
   }
 
-  async alternarStatus(turma: Turma) {
+  async alternarStatus(servico: Servico) {
     try {
-      await this.turmasService.update(turma.id, {
-        empresaId: turma.empresaId,
-        nome: turma.nome,
-        turno: turma.turno,
-        valorBase: turma.valorBase,
-        capacidade: turma.capacidade,
-        ativo: !turma.ativo
+      await this.servicosService.update(servico.id, {
+        empresaId: servico.empresaId,
+        nome: servico.nome,
+        turno: servico.turno,
+        valorBase: servico.valorBase,
+        ativo: !servico.ativo
       });
-      await this.carregarTurmas();
+      await this.carregarServicos();
     } catch (error) {
       console.error('Erro ao alterar status:', error);
     }

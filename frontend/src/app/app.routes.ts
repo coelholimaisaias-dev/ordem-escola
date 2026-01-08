@@ -6,8 +6,13 @@ import { roleGuard } from './role.guard';
 import { UsuariosComponent } from './usuarios.component';
 import { UsuariosFormComponent } from './usuarios-form.component';
 import { EmpresasComponent } from './empresas.component';
+import { EmpresasFormComponent } from './empresas-form.component';
 import { TurmasComponent } from './turmas.component';
+import { TurmasFormComponent } from './turmas-form.component';
 import { AlunosComponent } from './alunos.component';
+import { AlunosFormComponent } from './alunos-form.component';
+import { ServicosComponent } from './servicos.component';
+import { ServicosFormComponent } from './servicos-form.component';
 import { Perfil } from './core/perfil';
 
 export const routes: Routes = [
@@ -17,7 +22,16 @@ export const routes: Routes = [
 	{ path: 'usuarios/novo', component: UsuariosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
 	{ path: 'usuarios/:id', component: UsuariosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
 	{ path: 'empresas', component: EmpresasComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'empresas/nova', component: EmpresasFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'empresas/:id', component: EmpresasFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
 	{ path: 'turmas', component: TurmasComponent, canActivate: [authGuard] },
+	{ path: 'turmas/nova', component: TurmasFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'turmas/:id', component: TurmasFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
 	{ path: 'alunos', component: AlunosComponent, canActivate: [authGuard] },
+	{ path: 'alunos/novo', component: AlunosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'alunos/:id', component: AlunosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'servicos', component: ServicosComponent, canActivate: [authGuard] },
+	{ path: 'servicos/nova', component: ServicosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
+	{ path: 'servicos/:id', component: ServicosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN] } },
 	{ path: '**', redirectTo: '' }
 ];

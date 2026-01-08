@@ -25,7 +25,7 @@ export interface AlunoUpdateRequest {
 @Injectable({ providedIn: 'root' })
 export class AlunosService {
   private http = inject(HttpClient);
-  private apiUrl = '/alunos';
+  private apiUrl = '/api/alunos';
 
   async listAll() {
     return firstValueFrom(this.http.get<Aluno[]>(this.apiUrl));

@@ -23,7 +23,7 @@ export interface EmpresaUpdateRequest {
 @Injectable({ providedIn: 'root' })
 export class EmpresasService {
   private http = inject(HttpClient);
-  private apiUrl = '/empresas';
+  private apiUrl = '/api/empresas';
 
   async listAll() {
     return firstValueFrom(this.http.get<Empresa[]>(this.apiUrl));

@@ -23,7 +23,7 @@ export class AuthService {
   async login(email: string, senha: string) {
     const body = { email, senha };
     try {
-      const res = await firstValueFrom(this.http.post<LoginResponse>(`/auth/login`, body));
+      const res = await firstValueFrom(this.http.post<LoginResponse>(`/api/auth/login`, body));
       console.log('Resposta do login:', res);
       if (res?.token) {
         this.token.set(res.token);
@@ -62,7 +62,7 @@ export class AuthService {
 
   async performLogout() {
     try {
-      await firstValueFrom(this.http.post(`/auth/logout`, {}));
+      await firstValueFrom(this.http.post(`/api/auth/logout`, {}));
     } catch {
       // ignore
     } finally {

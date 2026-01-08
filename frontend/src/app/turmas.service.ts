@@ -39,7 +39,7 @@ export interface TurmaUpdateRequest {
 @Injectable({ providedIn: 'root' })
 export class TurmasService {
   private http = inject(HttpClient);
-  private apiUrl = '/turmas';
+  private apiUrl = '/api/turmas';
 
   async listAll() {
     return firstValueFrom(this.http.get<Turma[]>(this.apiUrl));

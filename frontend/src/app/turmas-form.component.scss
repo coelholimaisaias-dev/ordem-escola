@@ -1,0 +1,71 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.turmas-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 3vw, 2rem);
+}
+
+.form-header {
+  h1 {
+    margin: 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: $color-gray-900;
+  }
+}
+
+.form-container {
+  background: $color-white;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border-radius: clamp(0.5rem, 1vw, 0.75rem);
+  box-shadow: $shadow-sm;
+  max-width: clamp(30rem, 60vw, 37.5rem);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1rem);
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  gap: clamp(0.75rem, 2vw, 1rem);
+  margin-top: clamp(1rem, 3vw, 2rem);
+  justify-content: flex-end;
+
+  button {
+    min-width: clamp(7rem, 15vw, 9rem);
+
+    &:hover {
+      color: white !important;
+    }
+  }
+}
+
+.carregando {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: clamp(20rem, 50vh, 25rem);
+}
+
+@media (max-width: 960px) {
+  .form-container {
+    padding: $spacing-lg;
+    max-width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}
