@@ -1,0 +1,114 @@
+@use '../../styles/variables' as *;
+
+.usuarios-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.usuarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: $color-gray-900;
+  }
+}
+
+.filtros {
+  display: flex;
+  gap: $spacing-md;
+  align-items: flex-end;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  button {
+    height: 56px;
+  }
+}
+
+.tabela-container {
+  overflow-x: auto;
+  background: $color-white;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+
+  table {
+    width: 100%;
+  }
+}
+
+.tabela-usuarios {
+  th {
+    background-color: $color-gray-100;
+    color: $color-gray-900;
+    font-weight: 600;
+  }
+
+  td {
+    padding: $spacing-md;
+    border-bottom: 1px solid $color-gray-200;
+  }
+
+  tr:hover {
+    background-color: $color-gray-50;
+  }
+}
+
+.acoes-cell {
+  display: flex;
+  gap: $spacing-sm;
+  justify-content: center;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &.ativo {
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+  }
+
+  &.inativo {
+    background-color: rgba($color-error, 0.1);
+    color: $color-error;
+  }
+}
+
+.carregando {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 960px) {
+  .usuarios-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacing-md;
+  }
+
+  .filtros {
+    flex-direction: column;
+
+    mat-form-field {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,66 @@
+@use '../styles/variables' as *;
+
+.usuarios-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-lg;
+}
+
+.form-header {
+  h1 {
+    margin: 0;
+    font-size: 2rem;
+    color: $color-gray-900;
+  }
+}
+
+.form-container {
+  background: $color-white;
+  padding: $spacing-xl;
+  border-radius: $radius-md;
+  box-shadow: $shadow-sm;
+  max-width: 600px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  gap: $spacing-md;
+  margin-top: $spacing-lg;
+  justify-content: flex-end;
+
+  button {
+    min-width: 120px;
+  }
+}
+
+.carregando {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+@media (max-width: 960px) {
+  .form-container {
+    padding: $spacing-lg;
+    max-width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+
+    button {
+      width: 100%;
+    }
+  }
+}

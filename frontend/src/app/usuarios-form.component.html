@@ -1,0 +1,77 @@
+<main class="page usuarios-form-page">
+  <div class="form-header">
+    <h1>{{ isEditMode() ? 'Editar Usuário' : 'Novo Usuário' }}</h1>
+  </div>
+
+  <div class="form-container" *ngIf="!isLoading()">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Nome completo">
+        <mat-error *ngIf="form.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+          Nome deve ter pelo menos 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="email@exemplo.com">
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+          Email é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          Email inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width" *ngIf="!isEditMode()">
+        <mat-label>Senha</mat-label>
+        <input matInput formControlName="senha" type="password" placeholder="Digite a senha">
+        <mat-error *ngIf="form.get('senha')?.hasError('required')">
+          Senha é obrigatória
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="empresaId">
+          <mat-option *ngFor="let empresa of empresas()" [value]="empresa.id">
+            {{ empresa.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('empresaId')?.hasError('required')">
+          Empresa é obrigatória
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Perfil</mat-label>
+        <mat-select formControlName="perfil">
+          <mat-option *ngFor="let perfil of perfis" [value]="perfil">
+            {{ perfil }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('perfil')?.hasError('required')">
+          Perfil é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          <mat-spinner *ngIf="isSaving()" diameter="20" strokeWidth="2"></mat-spinner>
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()" [disabled]="isSaving()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="carregando" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+</main>
