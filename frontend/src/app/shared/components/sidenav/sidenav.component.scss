@@ -54,14 +54,18 @@
       height: clamp(3rem, 7vh, 3.5rem);
       min-height: clamp(3rem, 7vh, 3.5rem);
       margin: 0;
-      border-radius: 0;
+      border-radius: 0 !important;
       padding: 0 clamp(0.75rem, 2vw, 1rem) !important;
       background-color: transparent !important;
+
+      .mdc-list-item__content {
+        border-radius: 0 !important;
+      }
 
       &:hover:not([disabled]) {
         background-color: rgba(255, 255, 255, 0.05) !important;
         color: rgba(255, 255, 255, 0.95);
-        
+
         .mat-icon {
           color: rgba(255, 255, 255, 0.95) !important;
         }
@@ -77,9 +81,21 @@
         }
       }
 
-      &[disabled] {
+      &[disabled],
+      &.mat-mdc-list-item-disabled {
         opacity: 0.4;
         cursor: not-allowed;
+        background-color: transparent !important;
+        pointer-events: none;
+
+        &:hover {
+          background-color: transparent !important;
+        }
+
+        .mdc-list-item__primary-text,
+        .mat-icon {
+          opacity: 1;
+        }
       }
     }
 

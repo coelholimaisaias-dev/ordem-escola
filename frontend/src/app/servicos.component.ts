@@ -14,6 +14,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ServicosService, Servico } from './servicos.service';
 import { EmpresasService, Empresa } from './empresas.service';
 import { Turno } from './turmas.service';
+import { TURNOS, getTurnoLabel } from './core/turnos';
 
 @Component({
   selector: 'app-servicos',
@@ -47,6 +48,8 @@ export class ServicosComponent {
   filtroNome = signal('');
   filtroEmpresa = signal<number | null>(null);
   filtroTurno = signal<Turno | null>(null);
+  readonly turnos = TURNOS;
+  readonly getTurnoLabel = getTurnoLabel;
 
   displayedColumns = ['id', 'nome', 'empresa', 'turno', 'valorBase', 'status', 'acoes'];
 
@@ -127,12 +130,4 @@ export class ServicosComponent {
     }
   }
 
-  getTurnoLabel(turno: Turno): string {
-    const labels: { [key in Turno]: string } = {
-      MANHA: 'Manhã',
-      TARDE: 'Tarde',
-      NOITE: 'Noite'
-    };
-    return labels[turno];
-  }
 }

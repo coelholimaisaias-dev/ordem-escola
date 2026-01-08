@@ -5,7 +5,7 @@ import { firstValueFrom } from 'rxjs';
 export enum Turno {
   MANHA = 'MANHA',
   TARDE = 'TARDE',
-  NOITE = 'NOITE'
+  INTEGRAL = 'INTEGRAL'
 }
 
 export interface Turma {

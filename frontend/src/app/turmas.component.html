@@ -17,9 +17,7 @@
       <mat-label>Turno</mat-label>
       <mat-select [(ngModel)]="filtroTurno">
         <mat-option [value]="null">Todos</mat-option>
-        <mat-option value="MANHA">Manhã</mat-option>
-        <mat-option value="TARDE">Tarde</mat-option>
-        <mat-option value="NOITE">Noite</mat-option>
+          <mat-option *ngFor="let turno of turnos" [value]="turno.value">{{ turno.label }}</mat-option>
       </mat-select>
     </mat-form-field>
 

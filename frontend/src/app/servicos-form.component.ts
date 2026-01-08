@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ServicosService, ServicoCreateRequest } from './servicos.service';
 import { EmpresasService, Empresa } from './empresas.service';
 import { Turno } from './turmas.service';
+import { AuthService } from './auth.service';
+import { TURNOS } from './core/turnos';
 
 @Component({
   selector: 'app-servicos-form',
@@ -36,6 +38,7 @@ export class ServicosFormComponent {
   private empresasService = inject(EmpresasService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   form!: FormGroup;
   empresas = signal<Empresa[]>([]);
@@ -43,6 +46,19 @@ export class ServicosFormComponent {
   isSaving = signal(false);
   servicoId: number | null = null;
   isEditMode = signal(false);
+
+  isAdmin = computed(() => this.authService.isAdmin());
+  empresaIdUsuario = this.authService.getEmpresaId();
+  readonly turnos = TURNOS;
+
+  // Filtra empresas: CLIENTE vê só sua empresa
+  empresasFiltradas = computed(() => {
+    const todasEmpresas = this.empresas();
+    if (this.isAdmin()) {
+      return todasEmpresas;
+    }
+    return todasEmpresas.filter(e => e.id === this.empresaIdUsuario);
+  });
 
   async ngOnInit() {
     this.criarForm();
@@ -52,6 +68,11 @@ export class ServicosFormComponent {
     if (this.servicoId) {
       this.isEditMode.set(true);
       await this.carregarServico();
+    } else {
+      // Se CLIENTE, pré-preencher com sua empresa
+      if (!this.isAdmin() && this.empresaIdUsuario) {
+        this.form.patchValue({ empresaId: this.empresaIdUsuario });
+      }
     }
   }
 

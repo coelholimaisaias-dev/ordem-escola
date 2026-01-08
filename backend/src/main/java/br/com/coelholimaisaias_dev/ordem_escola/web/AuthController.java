@@ -41,7 +41,7 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(auth.getName());
         
-        // Buscar o usuário para retornar nome completo e perfil
+        // Buscar o usuário para retornar nome completo, perfil e empresaId
         var usuario = usuarioRepository.findByEmail(req.email())
                 .orElseThrow(() -> new IllegalStateException("Usuário não encontrado após autenticação bem-sucedida"));
         
@@ -49,12 +49,15 @@ public class AuthController {
             throw new IllegalStateException("Usuário sem perfil definido");
         }
 
-        return ResponseEntity.ok(Map.of(
+        var response = Map.of(
                 "token", token,
                 "username", auth.getName(),
                 "name", usuario.getNome(),
-                "perfil", usuario.getPerfil().toString()
-        ));
+                "perfil", usuario.getPerfil().toString(),
+                "empresaId", usuario.getEmpresa() != null ? usuario.getEmpresa().getId() : null
+        );
+
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/logout")

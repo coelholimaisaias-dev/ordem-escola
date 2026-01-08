@@ -10,6 +10,7 @@ interface LoginResponse {
   username?: string;
   name?: string;
   perfil?: Perfil;
+  empresaId?: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -18,6 +19,7 @@ export class AuthService {
   private token = signal<string | null>(localStorage.getItem('auth_token'));
   private user = signal<string | null>(localStorage.getItem('user'));
   private role = signal<Role>((localStorage.getItem('user_role') as Role) || Perfil.CLIENTE);
+  private empresaId = signal<number | null>(parseInt(localStorage.getItem('user_empresa_id') || 'null', 10) || null);
   readonly isAuthenticated = computed(() => !!this.token());
 
   async login(email: string, senha: string) {
@@ -41,7 +43,13 @@ export class AuthService {
       // Capturar role do backend
       const role = res.perfil === Perfil.ADMIN ? Perfil.ADMIN : Perfil.CLIENTE;
       this.setRole(role);
-      console.log('Role setado:', role);
+
+      // Capturar empresaId do backend
+      if (res.empresaId) {
+        this.setEmpresaId(res.empresaId);
+      }
+
+      console.log('Role setado:', role, 'EmpresaId:', res.empresaId);
 
       return { ok: true, message: 'Autenticado' } as const;
     } catch (err: any) {
@@ -55,9 +63,11 @@ export class AuthService {
   logout() {
     this.token.set(null);
     this.user.set(null);
+    this.empresaId.set(null);
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
     localStorage.removeItem('user_role');
+    localStorage.removeItem('user_empresa_id');
   }
 
   async performLogout() {
@@ -86,5 +96,23 @@ export class AuthService {
     this.role.set(role);
     localStorage.setItem('user_role', role);
   }
+
+  getEmpresaId(): number | null {
+    return this.empresaId();
+  }
+
+  setEmpresaId(id: number) {
+    this.empresaId.set(id);
+    localStorage.setItem('user_empresa_id', id.toString());
+  }
+
+  isAdmin() {
+    return this.role() === Perfil.ADMIN;
+  }
+
+  isCliente() {
+    return this.role() === Perfil.CLIENTE;
+  }
 }
+
 

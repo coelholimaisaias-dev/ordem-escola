@@ -9,6 +9,7 @@ public record AlunoResponse(
         Long usuarioId,
         String usuarioNome,
         String usuarioEmail,
+        Long usuarioEmpresaId,
         LocalDate dataNascimento,
         Boolean ativo
 ) {}

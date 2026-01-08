@@ -29,12 +29,13 @@ public class AlunoService extends BaseService<Aluno> {
                 .toList();
     }
 
-    public List<AlunoResponse> listarPorFiltro(String usuarioNome, Long usuarioId, Boolean ativo) {
+    public List<AlunoResponse> listarPorFiltro(String usuarioNome, Long usuarioId, Boolean ativo, Long empresaId) {
         return repository.findAllByAtivoTrue()
                 .stream()
                 .filter(a -> usuarioNome == null || a.getUsuario().getNome().toLowerCase().contains(usuarioNome.toLowerCase()))
                 .filter(a -> usuarioId == null || a.getUsuario().getId().equals(usuarioId))
                 .filter(a -> ativo == null || a.getAtivo().equals(ativo))
+                .filter(a -> empresaId == null || (a.getUsuario().getEmpresa() != null && a.getUsuario().getEmpresa().getId().equals(empresaId)))
                 .map(this::toResponse)
                 .toList();
     }
@@ -77,8 +78,16 @@ public class AlunoService extends BaseService<Aluno> {
                 aluno.getUsuario() != null ? aluno.getUsuario().getId() : null,
                 aluno.getUsuario() != null ? aluno.getUsuario().getNome() : null,
                 aluno.getUsuario() != null ? aluno.getUsuario().getEmail() : null,
+                aluno.getUsuario() != null && aluno.getUsuario().getEmpresa() != null ? aluno.getUsuario().getEmpresa().getId() : null,
                 aluno.getDataNascimento(),
                 aluno.getAtivo()
         );
+    }
+
+    public void validarUsuarioPertenceAEmpresa(Long usuarioId, Long empresaId) {
+        var usuario = usuarioService.buscarPorId(usuarioId);
+        if (usuario.getEmpresa() == null || !usuario.getEmpresa().getId().equals(empresaId)) {
+            throw new IllegalStateException("Usuário não pertence à sua empresa");
+        }
     }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -13,6 +13,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { TurmasService, Turma, Turno } from './turmas.service';
 import { EmpresasService, Empresa } from './empresas.service';
+import { AuthService } from './auth.service';
+import { Perfil } from './core/perfil';
+import { TURNOS, getTurnoLabel } from './core/turnos';
 
 @Component({
   selector: 'app-turmas',
@@ -34,10 +37,11 @@ import { EmpresasService, Empresa } from './empresas.service';
   styleUrl: './turmas.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TurmasComponent {
+export class TurmasComponent implements OnInit {
   private turmasService = inject(TurmasService);
   private empresasService = inject(EmpresasService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   turmas = signal<Turma[]>([]);
   empresas = signal<Empresa[]>([]);
@@ -49,17 +53,26 @@ export class TurmasComponent {
 
   displayedColumns = ['id', 'nome', 'turno', 'empresa', 'capacidade', 'valorBase', 'status', 'acoes'];
 
+  isAdmin = this.authService.isAdmin();
+  empresaIdUsuario = this.authService.getEmpresaId();
+  readonly turnos = TURNOS;
+  readonly getTurnoLabel = getTurnoLabel;
+
   turmasFiltradas = computed(() => {
     const turmas = this.turmas();
     const nome = this.filtroNome().toLowerCase();
     const turno = this.filtroTurno();
     const empresa = this.filtroEmpresa();
+    const isAdmin = this.authService.isAdmin();
+    const empresaId = this.authService.getEmpresaId();
 
     return turmas.filter(t => {
       const matchNome = !nome || t.nome.toLowerCase().includes(nome);
       const matchTurno = !turno || t.turno === turno;
       const matchEmpresa = !empresa || t.empresaId === empresa;
-      return matchNome && matchTurno && matchEmpresa;
+      // CLIENTE vê só turmas da sua empresa
+      const matchPermissao = isAdmin || t.empresaId === empresaId;
+      return matchNome && matchTurno && matchEmpresa && matchPermissao;
     });
   });
 
@@ -123,12 +136,4 @@ export class TurmasComponent {
     }
   }
 
-  getTurnoLabel(turno: Turno): string {
-    const labels: { [key in Turno]: string } = {
-      MANHA: 'Manhã',
-      TARDE: 'Tarde',
-      NOITE: 'Noite'
-    };
-    return labels[turno];
-  }
 }

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { TurmasService, Turno, TurmaCreateRequest } from './turmas.service';
 import { EmpresasService, Empresa } from './empresas.service';
+import { AuthService } from './auth.service';
+import { TURNOS } from './core/turnos';
 
 @Component({
   selector: 'app-turmas-form',
@@ -33,6 +35,7 @@ export class TurmasFormComponent {
   private empresasService = inject(EmpresasService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   form!: FormGroup;
   empresas = signal<Empresa[]>([]);
@@ -40,6 +43,19 @@ export class TurmasFormComponent {
   isSaving = signal(false);
   turmaId: number | null = null;
   isEditMode = signal(false);
+
+  isAdmin = computed(() => this.authService.isAdmin());
+  empresaIdUsuario = this.authService.getEmpresaId();
+  readonly turnos = TURNOS;
+
+  // Filtra empresas: CLIENTE vê só sua empresa
+  empresasFiltradas = computed(() => {
+    const todasEmpresas = this.empresas();
+    if (this.isAdmin()) {
+      return todasEmpresas;
+    }
+    return todasEmpresas.filter(e => e.id === this.empresaIdUsuario);
+  });
 
   async ngOnInit() {
     this.criarForm();
@@ -52,6 +68,11 @@ export class TurmasFormComponent {
     if (this.turmaId) {
       this.isEditMode.set(true);
       await this.carregarTurma();
+    } else {
+      // Se CLIENTE, pré-preencher com sua empresa
+      if (!this.isAdmin() && this.empresaIdUsuario) {
+        this.form.patchValue({ empresaId: this.empresaIdUsuario });
+      }
     }
   }
 
@@ -87,6 +108,12 @@ export class TurmasFormComponent {
         capacidade: turma.capacidade,
         valorBase: turma.valorBase
       });
+
+      // CLIENTE só pode editar turmas da sua empresa
+      if (!this.isAdmin() && turma.empresaId !== this.empresaIdUsuario) {
+        this.router.navigate(['/turmas']);
+        return;
+      }
     } catch (error) {
       console.error('Erro ao carregar turma:', error);
     } finally {
@@ -97,13 +124,16 @@ export class TurmasFormComponent {
   async salvar() {
     if (this.form.invalid) return;
 
+    // CLIENTE sempre salva na sua empresa
+    const empresaId = this.isAdmin() ? this.form.get('empresaId')?.value : this.empresaIdUsuario;
+
     this.isSaving.set(true);
     try {
       const data = this.form.value;
 
       if (this.isEditMode()) {
         await this.turmasService.update(this.turmaId!, {
-          empresaId: data.empresaId,
+          empresaId: empresaId,
           nome: data.nome,
           turno: data.turno,
           capacidade: data.capacidade,
@@ -112,7 +142,7 @@ export class TurmasFormComponent {
         });
       } else {
         await this.turmasService.create({
-          empresaId: data.empresaId,
+          empresaId: empresaId,
           nome: data.nome,
           turno: data.turno,
           capacidade: data.capacidade,
