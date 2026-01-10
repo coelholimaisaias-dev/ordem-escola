@@ -1,0 +1,76 @@
+<main class="page produtos-form-page">
+  <div class="form-header">
+    <h1>{{ isEditMode() ? 'Editar Produto' : 'Novo Produto' }}</h1>
+  </div>
+
+  <div class="form-container" *ngIf="!isLoading()">
+    <form [formGroup]="form" (ngSubmit)="salvar()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Empresa</mat-label>
+        <mat-select formControlName="empresaId" [disabled]="!isAdmin() || isEditMode()">
+          <mat-option *ngFor="let empresa of empresasFiltradas()" [value]="empresa.id">
+            {{ empresa.nome }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('empresaId')?.hasError('required')">
+          Empresa é obrigatória
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nome</mat-label>
+        <input matInput formControlName="nome" placeholder="Nome do produto">
+        <mat-error *ngIf="form.get('nome')?.hasError('required')">
+          Nome é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('nome')?.hasError('minlength')">
+          Nome deve ter pelo menos 3 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descrição</mat-label>
+        <textarea matInput formControlName="descricao" placeholder="Descrição do produto" rows="3"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option *ngFor="let tipo of tiposProduto" [value]="tipo.value">{{ tipo.label }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('tipo')?.hasError('required')">
+          Tipo é obrigatório
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Valor Unitário</mat-label>
+        <input matInput formControlName="valorUnitario" type="number" placeholder="0.00" step="0.01">
+        <mat-error *ngIf="form.get('valorUnitario')?.hasError('required')">
+          Valor unitário é obrigatório
+        </mat-error>
+        <mat-error *ngIf="form.get('valorUnitario')?.hasError('min')">
+          Valor deve ser maior ou igual a 0
+        </mat-error>
+      </mat-form-field>
+
+      <mat-slide-toggle *ngIf="isEditMode()" formControlName="ativo">
+        Ativo
+      </mat-slide-toggle>
+
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isSaving() || form.invalid">
+          <mat-spinner *ngIf="isSaving()" diameter="20" strokeWidth="2"></mat-spinner>
+          {{ isEditMode() ? 'Atualizar' : 'Criar' }}
+        </button>
+        <button mat-stroked-button type="button" (click)="cancelar()" [disabled]="isSaving()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="carregando" *ngIf="isLoading()">
+    <mat-spinner></mat-spinner>
+  </div>
+</main>

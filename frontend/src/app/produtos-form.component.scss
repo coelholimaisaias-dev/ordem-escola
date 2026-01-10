@@ -1,0 +1,65 @@
+.produtos-form-page {
+  max-width: 800px;
+  margin: 0 auto;
+
+  .form-header {
+    margin-bottom: 2rem;
+
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--primary-color);
+    }
+  }
+
+  .form-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+
+      .full-width {
+        width: 100%;
+      }
+
+      .form-row {
+        display: flex;
+        gap: 1rem;
+
+        mat-form-field {
+          flex: 1;
+        }
+      }
+
+      mat-slide-toggle {
+        margin-bottom: 1rem;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+
+        button {
+          padding: 0.5rem 2rem;
+
+          mat-spinner {
+            display: inline-block;
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .carregando {
+    display: flex;
+    justify-content: center;
+    padding: 3rem;
+  }
+}

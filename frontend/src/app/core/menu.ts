@@ -14,4 +14,5 @@ export const MENU_ITEMS: MenuItem[] = [
   { label: 'Turmas', path: '/turmas', icon: 'groups', roles: [Perfil.ADMIN, Perfil.CLIENTE] },
   // { label: 'Alunos', path: '/alunos', icon: 'school', roles: [Perfil.ADMIN, Perfil.CLIENTE] },
   { label: 'Serviços', path: '/servicos', icon: 'handyman', roles: [Perfil.ADMIN, Perfil.CLIENTE] },
+  { label: 'Produtos', path: '/produtos', icon: 'inventory_2', roles: [Perfil.ADMIN, Perfil.CLIENTE] },
 ];

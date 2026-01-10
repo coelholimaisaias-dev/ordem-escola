@@ -13,6 +13,8 @@ import { AlunosComponent } from './alunos.component';
 import { AlunosFormComponent } from './alunos-form.component';
 import { ServicosComponent } from './servicos.component';
 import { ServicosFormComponent } from './servicos-form.component';
+import { ProdutosComponent } from './produtos.component';
+import { ProdutosFormComponent } from './produtos-form.component';
 import { Perfil } from './core/perfil';
 
 export const routes: Routes = [
@@ -33,5 +35,8 @@ export const routes: Routes = [
 	{ path: 'servicos', component: ServicosComponent, canActivate: [authGuard] },
 	{ path: 'servicos/nova', component: ServicosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN, Perfil.CLIENTE] } },
 	{ path: 'servicos/:id', component: ServicosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN, Perfil.CLIENTE] } },
+	{ path: 'produtos', component: ProdutosComponent, canActivate: [authGuard] },
+	{ path: 'produtos/novo', component: ProdutosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN, Perfil.CLIENTE] } },
+	{ path: 'produtos/:id', component: ProdutosFormComponent, canActivate: [authGuard, roleGuard], data: { roles: [Perfil.ADMIN, Perfil.CLIENTE] } },
 	{ path: '**', redirectTo: '' }
 ];
